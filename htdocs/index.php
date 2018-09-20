@@ -1,5 +1,7 @@
 <?php
 
+include_once("functions.php");
+
 $url = "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 if(strcmp($_SERVER['HTTP_HOST'], "www.fitbit.com") == 0) { $url = "http://104.16.65.50" . $_SERVER['REQUEST_URI']; }
 $path = dirname(dirname(__FILE__)) . "/data/" . gmdate("YmdHis");
@@ -36,7 +38,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 if(strlen($postdata) > 0)
 {
 	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, spoof_data($postdata));
 }
 $op = curl_exec($ch);
 curl_close($ch);
