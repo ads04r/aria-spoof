@@ -38,7 +38,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 if(strlen($postdata) > 0)
 {
 	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, spoof_data($postdata));
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata); // spoof_data here
 }
 $op = curl_exec($ch);
 curl_close($ch);

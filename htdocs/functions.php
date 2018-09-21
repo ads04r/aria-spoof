@@ -26,3 +26,9 @@ function spoof_data($postdata)
 	return($ret);
 }
 
+function get_timestamp()
+{
+	$dt = time();
+	$ret = pack("V", $dt);
+	return($ret);
+}
