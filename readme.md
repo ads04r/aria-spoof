@@ -109,7 +109,7 @@ resolved as www.fitbit.com by your DNS server, and ensure it's running
 Apache2 and PHP. Configuration of these is out of scope of these instructions
 but information is commonplace on Google.
 
-Git pull this repo into a directory accessible by the www-data user,
+Clone this repo into a directory accessible by the www-data user,
 and, within that directory, also create a directory called data to which
 the www-data user has write access (ideally, www-data should be the
 owner.) Now configure a virtual host in the Apache config file that
