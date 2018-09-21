@@ -23,9 +23,9 @@ function spoof_data($postdata)
 	}
 	$ret .= $postdata;
 
-	$ret = substr($ret, 0, (strlen($ret) - 2))
+	$ret = substr($ret, 0, (strlen($ret) - 2));
 	$crc = crc16($ret);
-	$ret .= pack("V", $crc)
+	$ret .= pack("v", $crc);
 
 	return($ret);
 }
