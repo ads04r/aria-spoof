@@ -37,7 +37,8 @@ So ideally, I'd like a way to use the scales - without a Fitbit account -
 and have them upload data to a local device on my network, while not
 uploading the data to Fitbit's servers. The problem is that the owner of
 the scales would still like their data uploaded to Fitbit's cloud, so
-we can't just use something like Helvetic, which completely replaces
+we can't just use something like
+[Helvetic](https://github.com/micolous/helvetic/), which completely replaces
 the Fitbit servers.
 
 This script is tested and works with the Fitbit Aria running firmware
@@ -51,7 +52,7 @@ Many thanks are due to architekt and krisha, authors of
 for an earlier version of the firmware than the one I'm using.
 
 Thanks are also due to micolous, author of
-[helvetic](https://github.com/micolous/helvetic/), whose documentation
+[Helvetic](https://github.com/micolous/helvetic/), whose documentation
 tipped me off that I should be using CRC16/XModem to calculate the
 checksum.
 
