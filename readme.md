@@ -7,10 +7,10 @@ Fitbit by the Aria wifi scales.
 Introduction
 ------------
 
-OK, so my use case is pretty specific. Another member of my household owns a
+My use case is pretty specific. Another member of my household owns a
 set of Fitbit Aria scales. This is a set of bathroom scales that detects the
 user of a Fitbit device, and uploads their weight to their account on Fitbit's
-servers, although it will happily weight anyone, regardless of whether or not
+servers, although it will happily weigh anyone, regardless of whether or not
 they are a Fitbit user.
 
 Like all things that use my network for internet access, I've been
@@ -48,5 +48,26 @@ Thanks are also due to micolous, author of
 [helvetic](https://github.com/micolous/helvetic/), whose documentation
 tipped me off that I should be using CRC16/XModem to calculate the
 checksum.
+
+Methods
+-------
+
+The scales are pretty good with network connection, or lack of it. Our
+bathroom is quite a way from our wifi access point, so maybe 10% of the time
+the scales will weigh you and fail to upload the data because they can't
+connect to the wifi. This is fine, because if will store the failed attempt,
+and the next time someone weighs themself, it will upload all previously
+stored data.
+
+So it's not just a case of we can replay a 'success' response if a guest
+user weighs themself, because the data may include the previous user's
+weight, which they *do* want uploaded to Fitbit. So we have to actually
+interpret and modify the data being uploaded.
+
+We *could* cleanly remove all guest data from uploads, and craft a fake
+'OK' message from the server to send to the scales if only guest data is
+included in a particular upload. But this is complicated, it's far easier
+to just replace all guest weights with a random number, similar to how
+PDroid for Android works. So that's what this script does.
 
 
