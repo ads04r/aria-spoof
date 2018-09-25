@@ -158,7 +158,8 @@ gets created in the data directory you created on installation, then
 all went well.
 
 In the timestamped directory, you'll find basically a complete copy of
-the exchange that went between the scales and the Fitbit server. The next
-version of this script will do a better job of interpreting this into a
-more readable format.
+the exchange that went between the scales and the Fitbit server,
+unmodified. In addition, you'll get a JSON file, request_data.json,
+which contains the same data as the binary file, but nicely formatted
+into a JSON object which can be read into pretty much anything.
 

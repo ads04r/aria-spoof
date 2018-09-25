@@ -20,6 +20,9 @@ $postdata = file_get_contents("php://input");
 $fp = fopen($path . "/request_data", "w");
 fwrite($fp, $postdata);
 fclose($fp);
+$fp = fopen($path . "/request_data.json", "w");
+fwrite($fp, json_encode(interpret_data($postdata), JSON_PRETTY_PRINT));
+fclose($fp);
 
 $retheaders = array();
 
