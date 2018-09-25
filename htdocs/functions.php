@@ -1,5 +1,47 @@
 <?php
 
+function interpret_data($postdata)
+{
+	$header = substr($postdata, 0, 46);
+	$buffer = substr($postdata, 46);
+	$itemstrings = array();
+	while(strlen($buffer) >= 32)
+	{
+		$itemstrings[] = substr($buffer, 0, 32);
+		$buffer = substr($buffer, 32);
+	}
+	$checksum = $buffer;
+
+	$ret = array();
+	$ret['date'] = unpack("V", substr($header, 38, 4))[1];
+	$ret['friendly_date'] = gmdate("l jS F Y, g:ia", $ret['date']) . " UTC";
+	$ret['item_count'] = unpack("V", substr($header, 42, 4))[1];
+	$ret['battery'] = unpack("V", substr($header, 4, 4))[1];
+	$ret['protocol'] = unpack("V", substr($header, 0, 4))[1];
+	$ret['firmware'] = unpack("V", substr($header, 30, 4))[1];
+	$ret['mac'] = dechex(unpack("C", substr($header, 8, 1))[1]) . ":" . dechex(unpack("C", substr($header, 9, 1))[1]) . ":" . dechex(unpack("C", substr($header, 10, 1))[1]) . ":" . dechex(unpack("C", substr($header, 11, 1))[1]) . ":" . dechex(unpack("C", substr($header, 12, 1))[1]);
+	$ret['readings'] = array();
+
+	foreach($itemstrings as $chunk)
+	{
+		$item = array();
+		$item['user_id'] = unpack("V", substr($chunk, 16, 4))[1];
+		$item['weight_kg'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 1000);
+		$item['weight_st'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 6350.293);
+		$item['weight_lbs'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 453.6);
+		$item['date'] = unpack("V", substr($chunk, 12, 4))[1];
+		$item['friendly_date'] = gmdate("l jS F Y, g:ia", $item['date']) . " UTC";
+		$item['impedance'] = unpack("V", substr($chunk, 4, 4))[1];
+		$item['body_fat_1'] = unpack("V", substr($chunk, 20, 4))[1];
+		$item['body_fat_2'] = unpack("V", substr($chunk, 28, 4))[1];
+		$item['covariance'] = unpack("V", substr($chunk, 24, 4))[1];
+
+		$ret['readings'][] = $item;
+	}
+
+	return($ret);
+}
+
 function spoof_data($postdata)
 {
 
@@ -54,4 +96,3 @@ function crc16($buffer)
 	}
 	return $result;
 }
-
