@@ -20,29 +20,26 @@ outset (even without doing any traffic analysis) that the device uploads
 
 I keep track of my health. In fact, I did my PhD in lifelogging back in 2008
 and have an awful lot of data on my activity and wherabouts for the past ten
-years. I like to do this in private, without uploading
+years. Unlike many, I like to do this in private, without uploading
 all of my personal data to some cloud-based service. This is why I do not own
 a Fitbit device, it insists all your health data processing happens on their
-server where you have no control over it. I prefer to use another brand of
-fitness band to track my exercise. I keep a mental note of my weight,
-although some form of automatic logging system would be nice from a
-lifelogger/data-nerd point of view. However, now
+server where you have no control over it. However, now
 the bathroom scales have been replaced with the Aria device, I, as a
 non-Fitbit-user, am getting the worst of both worlds; my weight is being
 uploaded to Fitbit's server every time I use them, and I'm not getting
 an automatically generated log of my weight, like the Fitbit owner of the
 household is.
 
-So ideally, I'd like a way to use the scales - without a Fitbit account -
-and have them upload data to a local device on my network, while not
-uploading the data to Fitbit's servers. The problem is that the owner of
-the scales would still like their data uploaded to Fitbit's cloud, so
-we can't just use something like
+If I were the only person in the house, I could use
 [Helvetic](https://github.com/micolous/helvetic/), which completely replaces
-the Fitbit servers.
+the Fitbit servers with a local network alternative. However, the owner of
+the scales would still like their data uploaded to Fitbit's cloud, so
+I needed something that ensures the Aria works as designed when
+a Fitbit user steps on them, but intercepts all other weight events,
+logging them locally and not uploading them to Fitbit.
 
 This script is tested and works with the Fitbit Aria running firmware
-version 3. It is *not* tested with an Aria 2.
+version 39 (protocol v3). It is *not* tested with an Aria 2.
 
 Acknowledgements
 ----------------
@@ -78,6 +75,22 @@ We *could* cleanly remove all guest data from uploads, and craft a fake
 included in a particular upload. But this is complicated, it's far easier
 to just replace all guest weights with a random number, similar to how
 PDroid for Android works. So that's what this script does.
+
+Privacy
+-------
+
+The script only uploads the weight of Fitbit users to Fitbit's server
+unmodified, but keeps *all* users' data. Thinking about it,
+this is kind of a dick move. The script should only really log the
+guest user's data locally; just because the Fitbit user of the house
+has given consent for Fitbit to process her personal data, I should
+not assume this consent applies to me too. For this reason, the
+'interpret_data' function in htdocs/functions.php has an
+$ignore_registered_users argument, which is set to true by
+default. This ensures no data from registered Fitbit users ends up
+in the JSON (although it's still in the raw data). If you want to
+store *everyone's* data in the JSON, and have obtained their
+consent, change the $ignore_registered_users value to false.
 
 Installation and Configuration
 ------------------------------
@@ -161,5 +174,7 @@ In the timestamped directory, you'll find basically a complete copy of
 the exchange that went between the scales and the Fitbit server,
 unmodified. In addition, you'll get a JSON file, request_data.json,
 which contains the same data as the binary file, but nicely formatted
-into a JSON object which can be read into pretty much anything.
+into a JSON object which can be read into pretty much anything. See the
+'Privacy' section above if you expected to see more data in this file.
+
 

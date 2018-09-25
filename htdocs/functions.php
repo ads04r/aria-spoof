@@ -1,6 +1,6 @@
 <?php
 
-function interpret_data($postdata)
+function interpret_data($postdata, $ignore_registered_users=true)
 {
 	$header = substr($postdata, 0, 46);
 	$buffer = substr($postdata, 46);
@@ -26,6 +26,9 @@ function interpret_data($postdata)
 	{
 		$item = array();
 		$item['user_id'] = unpack("V", substr($chunk, 16, 4))[1];
+
+		if(($item['user_id'] > 0) && ($ignore_registered_users)) { continue; }
+
 		$item['weight_kg'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 1000);
 		$item['weight_st'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 6350.293);
 		$item['weight_lbs'] = ((unpack("V", substr($chunk, 8, 4))[1]) / 453.6);
