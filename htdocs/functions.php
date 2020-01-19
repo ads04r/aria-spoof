@@ -1,6 +1,6 @@
 <?php
 
-function interpret_data($postdata, $ignore_registered_users=true)
+function interpret_data($postdata, $ignore_registered_users=false)
 {
 	$header = substr($postdata, 0, 46);
 	$buffer = substr($postdata, 46);
@@ -19,7 +19,7 @@ function interpret_data($postdata, $ignore_registered_users=true)
 	$ret['battery'] = unpack("V", substr($header, 4, 4))[1];
 	$ret['protocol'] = unpack("V", substr($header, 0, 4))[1];
 	$ret['firmware'] = unpack("V", substr($header, 30, 4))[1];
-	$ret['mac'] = dechex(unpack("C", substr($header, 8, 1))[1]) . ":" . dechex(unpack("C", substr($header, 9, 1))[1]) . ":" . dechex(unpack("C", substr($header, 10, 1))[1]) . ":" . dechex(unpack("C", substr($header, 11, 1))[1]) . ":" . dechex(unpack("C", substr($header, 12, 1))[1]);
+	$ret['mac'] = sprintf('%02s', dechex(unpack("C", substr($header, 8, 1))[1])) . ":" . sprintf('%02s', dechex(unpack("C", substr($header, 9, 1))[1])) . ":" . sprintf('%02s', dechex(unpack("C", substr($header, 10, 1))[1])) . ":" . sprintf('%02s', dechex(unpack("C", substr($header, 11, 1))[1])) . ":" . sprintf('%02s', dechex(unpack("C", substr($header, 12, 1))[1]));
 	$ret['readings'] = array();
 
 	foreach($itemstrings as $chunk)
