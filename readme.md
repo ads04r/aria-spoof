@@ -178,3 +178,17 @@ into a JSON object which can be read into pretty much anything. See the
 'Privacy' section above if you expected to see more data in this file.
 
 
+Configuring MQTT Support
+------------------------
+
+MQTT support can be enabled by adding the mosquitto extension to PHP.
+To install the extension, see https://github.com/mgdm/Mosquitto-PHP 
+
+Once the extension is available, adjust the constants MQTT_BROKER 
+(hostname or IP address of the MQTT broker, MQTT_PORT (port of the
+MQTT broker), MQTT_STATE_TOPIC (MQTT topic where state information 
+like firmware version and battery level will be posted) and 
+MQTT_SAMPLES_TOPIC (MQTT topic where weight samples will be posted)
+to the values for your broker if needed.
+
+Currently username/password authentication is not implemented.
