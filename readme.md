@@ -4,6 +4,19 @@ Aria-Spoof
 An imaginatively titled privacy tool for spoofing guest weight data sent to
 Fitbit by the Aria wifi scales.
 
+NOTICE
+------
+
+I no longer have access to a pair of these scales since the only pair in the
+house began to suffer from manufacturing defects, and the scales have since
+been replaced with a pair from another manufacturer.
+
+For this reason, this code is no longer under development. I no longer
+have the capacity to maintain it or fix bugs, as I have no way of testing
+the code. This project should be considered dead. However, I have left the
+repository open, in case someone else wants to take the project over.
+
+
 Introduction
 ------------
 
